@@ -1,4 +1,4 @@
-# lib/department.py
+
 from __init__ import CURSOR, CONN
 
 
@@ -175,6 +175,7 @@ class Department:
         CURSOR.execute(sql, (self.id,),)
 
         rows = CURSOR.fetchall()
+        
         return [
             Employee.instance_from_db(row) for row in rows
         ]

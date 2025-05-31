@@ -1,4 +1,5 @@
-# lib/employee.py
+
+
 from __init__ import CURSOR, CONN
 from department import Department
 
@@ -147,6 +148,7 @@ class Employee:
             employee = cls(row[1], row[2], row[3])
             employee.id = row[0]
             cls.all[employee.id] = employee
+        print(employee.id, employee)
         return employee
 
     @classmethod
@@ -187,4 +189,11 @@ class Employee:
 
     def reviews(self):
         """Return list of reviews associated with current employee"""
-        pass
+        from review import Review
+        sql = """
+            SELECT *
+            FROM reviews
+            WHERE employee_id = ?;
+        """
+        rows = CURSOR.execute(sql, (self.id,),).fetchall()
+        return [Review.instance_from_db(row) for row in rows]
